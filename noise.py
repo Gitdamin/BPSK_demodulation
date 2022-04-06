@@ -68,66 +68,68 @@ def dem(AA, sigma):
     return D
 
 
-# main
+# main func.
+def main():
+    # noisy matrix
+    AA = np.zeros(n, dtype = 'float64')
+    sigma = 4
+    noise = np.random.normal(0, sigma, n)
 
-# noisy matrix
-AA = np.zeros(n, dtype = 'float64')
-sigma = 4
-noise = np.random.normal(0, sigma, n)
+    for i in range(0, n):
+        AA[i] = A[i] + noise[i]
 
-for i in range(0, n):
-    AA[i] = A[i] + noise[i]
-
-D_7 = dem(AA, sigma)
-plt.imshow(D_7, cmap=cm.gray)
-plt.title("image E with sigma = "+ str(sigma))
-plt.show()
-
-
-# Q8
-
-# noiseless matrix
-# to compare
-F = dem(A, 0)
-
-# repeat 10 times
-repeat = 10
-error = np.zeros((repeat, 10), dtype = 'int')
-for q in range(0, repeat):
-    for i in range(1, repeat+1):
-        
-        noise = np.random.normal(0, i, n)
-        for j in range(0, n):
-           AA[j] = A[j] + noise[j]
-        # reshape matrix
-        E = dem(AA, i)
-
-        # num of bit error
-        for j in range(0, row):
-            for k in range(0, col):
-                if F[j, k] != E[j, k]:
-                    error[q, i-1] += 1
+    D_7 = dem(AA, sigma)
+    plt.imshow(D_7, cmap=cm.gray)
+    plt.title("image E with sigma = "+ str(sigma))
+    plt.show()
 
 
-avg_e = np.zeros(10, dtype = 'int')
-for k in range(0, 10):
-    for j in range(0, repeat):
-        avg_e[k] += error[j, k]
+    # Q8
 
-avg_e = avg_e/(repeat*row*col)
-print(avg_e)
-sigma = np.arange(1, 11) # 1 ~ 10
-x = np.zeros(10, dtype = 'float')
-for i in range(0, 10):
-    x[i] = 1/sigma[i]
+    # noiseless matrix
+    # to compare
+    F = dem(A, 0)
 
-y = avg_e
-plt.scatter(x, y)
-plt.plot(x, y)
-plt.xscale("log")
-plt.yscale("log")
-plt.title("plot BER as a func. of log10(1/sigma)")
-plt.xlabel('log10(1/sigma)')
-plt.ylabel('BER (log)')
-plt.show()
+    # repeat 10 times
+    repeat = 10
+    error = np.zeros((repeat, 10), dtype = 'int')
+    for q in range(0, repeat):
+        for i in range(1, repeat+1):
 
+            noise = np.random.normal(0, i, n)
+            for j in range(0, n):
+               AA[j] = A[j] + noise[j]
+            # reshape matrix
+            E = dem(AA, i)
+
+            # num of bit error
+            for j in range(0, row):
+                for k in range(0, col):
+                    if F[j, k] != E[j, k]:
+                        error[q, i-1] += 1
+
+
+    avg_e = np.zeros(10, dtype = 'int')
+    for k in range(0, 10):
+        for j in range(0, repeat):
+            avg_e[k] += error[j, k]
+
+    avg_e = avg_e/(repeat*row*col)
+    print(avg_e)
+    sigma = np.arange(1, 11) # 1 ~ 10
+    x = np.zeros(10, dtype = 'float')
+    for i in range(0, 10):
+        x[i] = 1/sigma[i]
+
+    y = avg_e
+    plt.scatter(x, y)
+    plt.plot(x, y)
+    plt.xscale("log")
+    plt.yscale("log")
+    plt.title("plot BER as a func. of log10(1/sigma)")
+    plt.xlabel('log10(1/sigma)')
+    plt.ylabel('BER (log)')
+    plt.show()
+
+if __name__ == '__main__':
+    main()
