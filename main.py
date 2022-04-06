@@ -117,34 +117,3 @@ print(D)
 # Q6 : Result
 
 # Letter = E
-
-
-# BPSK Modulation
-
-k = 0
-AA = np.zeros((10000), dtype = 'float64')
-for i in range(0, row):
-    for j in range(0, col):
-        AA[k] = D[i,j]
-        k += 1
-print(AA)
-k = 0
-BB = np.zeros((1000000), dtype = 'float64')
-for i in range(0, 10000):
-    for j in range(0, 100):
-        BB[k] = cos(2*pi*f*t[j]+pi*AA[i])
-        k += 1
-print(BB)
-
-A = encoded_data
-n = row*col*num_sample
-
-count = 0
-for i in range(0, n):
-    A[i] = round(A[i], 6)
-    BB[i] = round(BB[i], 6)
-    if A[i] != BB[i]:
-        count += 1
-        print(i)
-
-print(count)
