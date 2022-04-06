@@ -51,4 +51,4 @@ for i in range(0, n):
         count += 1
         print(i)
 
-print(count)
+print('기존 신호와 복원된 신호 간의 차이는 총 %d개 입니다.' %count)
