@@ -5,6 +5,8 @@
 # Ewha Womans University
 # team project
 
+## demodulated signal -> modulation (vs) given modulated data
+
 import numpy as np
 from numpy import cos
 from numpy import pi
